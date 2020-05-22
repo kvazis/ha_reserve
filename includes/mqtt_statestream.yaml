@@ -1,0 +1,10 @@
+  base_topic: instance/reserve
+  include:
+    entities:
+      - sensor.unavailable_now_light
+      - sensor.unavailable_now_switch
+      - sensor.unavailable_now_sensor
+      - sensor.unavailable_now_binary_sensor
+      - sensor.last_google_backup_reserve
+      - sensor.snapshots_in_google_drive_reserve
+      - sensor.snapshots_in_hassio_reserve

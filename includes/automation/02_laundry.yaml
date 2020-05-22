@@ -1,0 +1,95 @@
+# Включение света на 15 секунд по движению
+- alias: 02_laundry_motion
+  initial_state: false
+  trigger:
+# Датчик движения
+  - platform: state
+    entity_id: binary_sensor.0x00158d0001ab3350_occupancy
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.aqara_02_ceiling
+    state: 'off'
+  action:
+  - service: light.turn_on
+    entity_id: light.aqara_02_ceiling
+
+# Выключение освещения       
+- alias: 02_laundry_light_off
+  initial_state: false
+  trigger:
+# Датчик движения
+  - platform: state
+    entity_id: binary_sensor.0x00158d0001ab3350_occupancy
+    from: 'on'
+    to: 'off' 
+  condition:
+  - condition: state
+    entity_id: light.aqara_02_ceiling
+    state: 'on'
+  action:
+  - service: light.turn_off
+    entity_id: light.aqara_02_ceiling
+
+## Возобновление питания на выключателе стиралки
+- alias: 02_laundry_power
+  initial_state: false
+  trigger:
+    - platform: time_pattern
+      minutes: '/1'
+  condition:
+    - condition: state
+      entity_id: switch.bwshp2_relay
+      state: 'off'
+  action:
+   - service: switch.turn_on
+     entity_id: switch.bwshp2_relay
+    
+## Обнаружение протечки, стиралка 
+- alias: 02_laundry_wleak_washmash_on
+  initial_state: false
+  trigger:       
+   platform: state
+   entity_id: binary_sensor.0x00158d0002705b7b_water_leak
+   to: 'on'
+  action:
+  - service: mqtt.publish
+    data_template:
+      topic: "notification/alarm"
+      payload_template: '0200'
+      retain: true
+  - service: script.turn_on
+    entity_id: script.11_warning
+      
+## Протечка устранена, стиралка        
+- alias: 02_laundry_wleak_washmash_off
+  initial_state: false
+  trigger:       
+   platform: state
+   entity_id: binary_sensor.0x00158d0002705b7b_water_leak
+   from: 'on'
+   to: 'off'
+  action:
+  - service: mqtt.publish
+    data_template:
+      topic: "notification/alarm"
+      payload_template: '0201'
+      retain: true
+  - service: script.turn_on
+    entity_id: script.11_all_ok
+    
+## Запись последнего движения в прачечной
+- alias: 02_laundry_motion_time
+  initial_state: false
+  trigger:
+## Движение в прачечной
+  - platform: state
+    entity_id: binary_sensor.0x00158d0001ab3350_occupancy
+    to: 'on'
+  action: 
+  - service: mqtt.publish
+    data_template:
+      topic: "binary_sensor/158d0001ab3350"
+      payload: "{{ states('sensor.time_date')}}"
+      retain: false
+      

@@ -1,0 +1,60 @@
+# Автоматизации
+
+# Контроль за основным сервером - 911_control.yaml
+automation.911_main_online:
+  friendly_name: 911 Основной сервер online
+  icon: mdi:server-network
+  
+automation.911_main_lost:
+  friendly_name: 911 Основной сервер offline
+  icon: mdi:server-network
+
+automation.911_scenario_on:
+  friendly_name: 911 Включение сценариев
+  icon: mdi:check-network-outline 
+  
+automation.911_scenario_off:
+  friendly_name: 911 Выключение сценариев
+  icon: mdi:close-network-outline 
+  
+automation.911_mqtt_online:
+  friendly_name: 911 MQTT сервер online
+  icon: mdi:server-network
+  
+automation.911_mqtt_lost:
+  friendly_name: 911 MQTT сервер offline
+  icon: mdi:server-network
+  
+automation.911_test_online:
+  friendly_name: 911 Тестовый сервер online
+  icon: mdi:server-network
+  
+automation.911_test_lost:
+  friendly_name: 911 Тестовый  сервер offline
+  icon: mdi:server-network
+
+# Системные сценарии - 00_system.yaml
+automation.00_backup_everyday:
+  friendly_name: 0001 Резервное копирование
+  icon: mdi:cloud-upload
+  
+automation.00_start:
+  friendly_name: 0001 Запуск Home Assistant
+  icon: mdi:upload
+  
+# Сценарии бойлера - 00_heater.yaml
+automation.00_heater_week_on:
+  friendly_name: 0002 Включение бойлера по будням
+  icon: mdi:water-boiler
+  
+automation.00_heater_weekend_on:
+  friendly_name: 0002 Включение бойлера по выходным
+  icon: mdi:water-boiler
+  
+automation.00_heater_off:
+  friendly_name: 0002 Выключение бойлера
+  icon: mdi:water-boiler-off
+  
+automation.00_heater_notification:
+  friendly_name: 0002 Уведомление о смене состояния бойлера
+  icon: mdi:water-boiler-alert

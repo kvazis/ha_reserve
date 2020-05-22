@@ -1,0 +1,92 @@
+## Туалет
+
+## Освещение
+light.yeelight_02_ceiling:
+  friendly_name: Туалет, люстра
+  icon: mdi:ceiling-light
+
+light.sonoff_02_mirror:
+  friendly_name: Туалет, подсветка зеркала
+  icon: mdi:spotlight-beam
+
+## Реле
+switch.0x00158d00014dceb3_switch_right:
+  friendly_name: Туалет вентилятор
+  device_class: plug 
+  icon: mdi:fan 
+switch.0x00158d00014dceb3_switch_left:
+  friendly_name: Туалет питание люстры
+  device_class: plug  
+  icon: mdi:power-socket-eu
+ 
+switch.02_sonoff_mini_relay:
+  friendly_name: Туалет питание подсветки
+  device_class: plug  
+  icon: mdi:power-socket-eu
+
+## Сенсоры
+sensor.02_toilet_lywsd02_humidity:
+  friendly_name: Туалет влажность
+  icon: mdi:water-percent
+sensor.02_toilet_lywsd02_temperature:
+  friendly_name: Туалет температура
+  icon: mdi:temperature-celsius
+sensor.0x00158d000128cd1a_click:
+  friendly_name: Туалет выключатель на стене
+
+## Бинарные сенсоры
+binary_sensor.0x00158d0001a24e71_occupancy:
+  friendly_name: Туалет движение
+  
+sensor.0x00158d0001a24e71_illuminance:
+  friendly_name: Туалет освещенность 
+
+## Уровень заряда
+sensor.0x00158d0001a24e71_battery:
+  friendly_name: Туалет движение
+sensor.0x00158d000128cd1a_battery:
+  friendly_name: Туалет выключатель на стене
+  
+## Прачечная
+
+## Освещение
+light.aqara_02_ceiling:
+  friendly_name: Прачечная свет
+  icon: mdi:lightbulb
+
+## Реле
+switch.0x00158d00014a1a55_switch:
+  friendly_name: Прачечная выключатель
+  device_class: plug  
+  icon: mdi:power-socket-eu
+
+switch.bwshp2_relay:
+  friendly_name: Стиральная машина, питание
+  device_class: plug  
+  icon: mdi:power-socket-eu
+
+## Сенсоры
+sensor.load_bwshp2:
+  friendly_name: Стиральная машина, потребление
+  unit_of_measurement: Вт
+  device_class: power
+sensor.bwshp2_voltage:
+  friendly_name: Напряжение в сети
+  unit_of_measurement: В
+
+sensor.0x00158d0001ab3350_illuminance:
+  friendly_name: Прачечная, освещенность
+
+## Бинарные сенсоры
+binary_sensor.0x00158d0001ab3350_occupancy:
+  friendly_name: Прачечная, движение
+
+binary_sensor.0x00158d0002705b7b_water_leak:
+  friendly_name: Прачечная, протечка, стиралка
+  
+## Уровень заряда
+sensor.0x00158d0001ab3350_battery:
+  friendly_name: Прачечная, движение
+sensor.0x00158d0002705b7b_battery: 
+  friendly_name: Прачечная, протечка, стиралка
+  

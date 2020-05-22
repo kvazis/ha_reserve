@@ -1,0 +1,207 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude_coord
+  longitude: !secret longitude_coord
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 0
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Kiev
+  # Customization file
+#   customize: !include customize.yaml
+  customize: !include_dir_merge_named includes/customize
+  packages: !include_dir_merge_named includes/packages
+  auth_providers:
+   - type: homeassistant
+   - type: legacy_api_password
+     api_password: !secret http_password
+  
+  whitelist_external_dirs :
+   - /config
+
+# Стандартный набор для интерфейса
+# default_config:
+
+# Ручная конфигурация
+# Отображение панели настроек в интерфейсе
+config:
+
+# Включение официального интерфейса
+frontend:
+  themes: !include_dir_merge_named themes
+# Включение карты
+map:
+# # Включение поддержки приложения
+mobile_app:
+# Отслеживание солнца
+sun:
+# API для предоставления информации о системе и ее компонентах
+system_health:
+# Сенсор для отображения последней версии НА
+updater:
+# Потоковое изображение с камер
+stream:
+# Включение журнала
+#logbook:
+
+
+# Автообнаружение устройств
+discovery:
+  ignore:
+    - yeelight
+    - homekit
+
+lovelace:
+  mode: yaml
+  resources:
+   - url: /hacsfiles/lovelace-auto-entities/auto-entities.js
+     type: module
+   - url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
+     type: js 
+   - url: /hacsfiles/canvas-gauge-card/canvas-gauge-card.js
+     type: module
+   - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+     type: module
+   - url: /hacsfiles/simple-thermostat/simple-thermostat.js?v=1
+     type: module
+   - url: /hacsfiles/lovelace-card-mod/card-mod.js
+     type: module
+   - url: /hacsfiles/stack-in-card/stack-in-card.js
+     type: module
+   - url: /hacsfiles/lovelace-battery-entity/battery-entity.js
+     type: module
+   - url: /hacsfiles/air-visual-card/air-visual-card.js
+     type: module
+   - url: /hacsfiles/logbook-card/logbook-card.js
+     type: module
+
+# Включение истории
+#history:
+
+
+#Платформы
+tuya:
+  username: !secret tuya_username
+  password: !secret tuya_password
+  country_code: 380
+  
+mqtt:
+#   broker: core-mosquitto
+  broker: 192.168.0.71
+  discovery: true
+  discovery_prefix: homeassistant
+  username: mqtt
+  password: mqtt
+
+weather:
+  - platform: openweathermap
+    api_key: !secret openweathermap_key
+#   mode: daily
+
+# Text to speech
+tts:
+  - platform: google_translate
+    service_name: google_say
+
+remote:
+  - platform: xiaomi_miio
+    name: "kitchen remote"
+    host: 192.168.0.135
+    token: db472a45b4f1913439abaab3f7ff6356
+    slot: 3
+    timeout: 30
+    hidden: false
+
+xiaomi_aqara:
+  discovery_retry: 10
+  gateways:
+    - mac: F0:B4:29:CC:1F:11
+      key: !secret gateway1_api
+      host: 192.168.0.80
+    - mac: 28:6C:07:F0:AD:27
+      key: !secret gateway2_api
+      host: 192.168.0.81
+    - mac: 34:CE:00:88:B0:39
+      key: !secret gateway3_api
+      host: 192.168.0.82
+    - mac: 78:11:DC:64:F4:C8
+      key: !secret gateway4_api
+      host: 192.168.0.83
+
+telegram_bot:
+  - platform: polling
+    api_key: !secret api_key_71
+    allowed_chat_ids:
+      - !secret chat_id_alex
+      - !secret chat_id_olha
+# Роутер
+asuswrt:
+  host: !secret asus_ip
+  username: !secret asus_user
+  password: !secret asus_password
+  sensors:
+    - upload
+    - download
+    - upload_speed
+    - download_speed
+device_tracker:
+  - platform: asuswrt
+    consider_home: 180
+    new_device_defaults:
+      track_new_devices: false
+
+
+life360:
+  driving_speed: 20
+  interval_seconds: 10
+  max_gps_accuracy: 200
+  max_update_wait:
+    minutes: 45
+  show_as_state:
+    - driving
+    - moving
+  warning_threshold: 2
+  error_threshold: 3
+  
+airvisual:
+    api_key: !secret api_airvisual
+    geographies:
+        latitude: !secret latitude_coord
+        longitude: !secret longitude_coord
+
+# Качество воздуха
+air_quality:
+  - platform: xiaomi_miio
+    name: 05_air_monitor
+    host: 192.168.0.142
+    token: 5233595a56594a4e55724b4967513542
+
+#Вынос в папки
+sensor: !include_dir_merge_list includes/sensors
+binary_sensor: !include_dir_merge_list includes/bin_sensor
+automation: !include_dir_merge_list includes/automation
+switch: !include_dir_merge_list includes/switches
+script: !include_dir_merge_named includes/scripts
+
+#Вынос в файлы
+climate: !include includes/climate.yaml
+scene: !include includes/scene.yaml
+mqtt_statestream: !include includes/mqtt_statestream.yaml
+plant: !include includes/plants.yaml
+input_number: !include includes/input_number.yaml
+input_select: !include includes/input_select.yaml
+media_player: !include includes/mplayer.yaml
+light: !include includes/light.yaml
+yeelight: !include includes/yeelight.yaml
+camera: !include includes/camera.yaml
+timer: !include includes/timer.yaml
+counter: !include includes/counter.yaml
+fan: !include includes/fan.yaml
+recorder: !include includes/recorder.yaml
+group: !include includes/groups.yaml
+rest_command: !include includes/rest_command.yaml
+notify: !include includes/notify.yaml
+# utility_meter: !include includes/utility_meter.yaml

@@ -1,0 +1,56 @@
+## Ванная 
+
+## Освещение
+light.yeelight_06_ceiling:
+  friendly_name: Ванная, люстра
+  icon: mdi:ceiling-light
+
+## Реле
+switch.0x00158d0001117040_switch_right:
+  friendly_name: Ванная, питание лампы
+  device_class: plug  
+  icon: mdi:power-socket-eu
+switch.0x00158d0001117040_switch_left:
+  friendly_name: Ванная, вентиляция
+  device_class: plug  
+  icon: mdi:fan
+
+switch.0x00158d00015751f4_switch:
+  friendly_name: Ванная, бойлер
+  device_class: plug  
+  icon: mdi:hot-tub
+
+## Сенсоры 
+sensor.0x00158d0001e547a3_illuminance:
+  friendly_name: Ванная, освещенность
+
+sensor.0x00158d0001dcd47e_humidity:
+  friendly_name: Ванная, влажность
+  icon: mdi:water-percent
+sensor.0x00158d0001dcd47e_temperature:
+  friendly_name: Ванная температура
+  icon: mdi:temperature-celsius
+  
+sensor.0x00158d000238a140_click:
+  friendly_name: Ванная выключатель
+
+#Бинарные сенсоры
+binary_sensor.0x00158d0001e547a3_occupancy:
+  friendly_name: Ванная, движение
+
+binary_sensor.0x00158d0001bb60c2_water_leak:
+  friendly_name: Ванная протечка душевая
+binary_sensor.0x00158d0001d72fa2_water_leak:
+  friendly_name: Ванная протечка раковина
+
+## Уровень заряда  
+sensor.0x00158d0001dcd47e_battery:
+  friendly_name: Ванная климат
+sensor.0x00158d000238a140_battery:
+  friendly_name: Ванная выключатель
+sensor.0x00158d0001bb60c2_battery:
+  friendly_name: Ванная протечка душевая
+sensor.0x00158d0001d72fa2_battery:
+  friendly_name: Ванная протечка раковина
+sensor.0x00158d0001e547a3_battery:
+  friendly_name: Ванная, движение

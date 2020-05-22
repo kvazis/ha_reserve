@@ -1,0 +1,71 @@
+  ilife_a4:
+    alias: Управление роботом пылесосом
+    sequence:
+      - service: xiaomi_aqara.play_ringtone
+        data:
+          gw_mac: 34:CE:00:88:B0:39
+          ringtone_id: 10001
+          ringtone_vol: 50
+      - service: mqtt.publish
+        data_template:
+          topic: "notification/messages"
+          payload_template: '0500'
+          retain: true
+      - service: broadlink.send
+        data:
+          host: 192.168.0.136
+          packet:
+             - "JgBIAAABJ5ATEhMSEhMSEhMSExISOBITETcTEhI3ExISNxMSEjcTEhIUERMSNxITEhITEhE5EhMSNxI4ERMSOBE3EzgSEhM3EgANBQ=="
+             
+  xiaomi55_tv_on:
+    alias: Включить Xiaomi 55
+    sequence:
+      - service: broadlink.send
+        data:
+          host: 192.168.0.136
+          packet:
+             - "JgBoACQRFhAWLRYtFhEWLBYRFi0WERUtFi0WAAFhJBEWERYtFS0WERYtFhEVLRYRFi0WLRYAAWEjEhURFi0WLRYQFi0WERYtFREWLRYtFgABYSQRFhAWLRYtFhEWLBYRFi0WERUtFi0WAA0F=="
+
+
+  xiaomi55_tv_off:
+    alias: Выключить Xiaomi 55
+    sequence:
+      - service: broadlink.send
+        data:
+          host: 192.168.0.136
+          packet:
+             - "JgCCACQRFiQWEBYbFSQWERURFhoWLRYkFhoWAAGcJBEWJBYQFhsVJBYRFhAWGxUtFiQWGhYAAZwkERYkFhEVGxYjFhEWEBYbFS0WJBYaFgABnCUQFiQWERUbFiMWERYQFhsWLBYkFhoWAAGdJBEVJBYRFhoWIxYRFhEVGxYtFiMWGhYADQUAAAAAAAA=="
+             - "JgCCACQRFiQWEBYbFSQWERURFhoWLRYkFhoWAAGcJBEWJBYQFhsVJBYRFhAWGxUtFiQWGhYAAZwkERYkFhEVGxYjFhEWEBYbFS0WJBYaFgABnCUQFiQWERUbFiMWERYQFhsWLBYkFhoWAAGdJBEVJBYRFhoWIxYRFhEVGxYtFiMWGhYADQUAAAAAAAA=="
+             - "JgCCACQRFiQWEBYbFSQWERURFhoWLRYkFhoWAAGcJBEWJBYQFhsVJBYRFhAWGxUtFiQWGhYAAZwkERYkFhEVGxYjFhEWEBYbFS0WJBYaFgABnCUQFiQWERUbFiMWERYQFhsWLBYkFhoWAAGdJBEVJBYRFhoWIxYRFhEVGxYtFiMWGhYADQUAAAAAAAA=="
+             - "JgCCACQRFiQWEBYbFSQWERURFhoWLRYkFhoWAAGcJBEWJBYQFhsVJBYRFhAWGxUtFiQWGhYAAZwkERYkFhEVGxYjFhEWEBYbFS0WJBYaFgABnCUQFiQWERUbFiMWERYQFhsWLBYkFhoWAAGdJBEVJBYRFhoWIxYRFhEVGxYtFiMWGhYADQUAAAAAAAA=="
+             - "JgBoACQRFhAWLRYtFhEWLBYRFi0WERUtFi0WAAFhJBEWERYtFS0WERYtFhEVLRYRFi0WLRYAAWEjEhURFi0WLRYQFi0WERYtFREWLRYtFgABYSQRFhAWLRYtFhEWLBYRFi0WERUtFi0WAA0F=="
+             
+  broadlink_learn:
+    alias: Обучение Broadlink RM plus
+    sequence:
+      - service: broadlink.learn
+        data:
+          host: 192.168.0.136
+          
+  living_home:
+    sequence:
+      - service: climate.set_preset_mode
+        data:
+          entity_id: climate.living_heater
+          preset_mode: none
+      - service: climate.set_temperature
+        data:
+          entity_id: climate.living_heater
+          temperature: 22
+        
+          
+  living_away:
+    sequence:
+      - service: climate.set_preset_mode
+        data:
+          entity_id: climate.living_heater
+          preset_mode: away
+      - service: climate.set_temperature
+        data:
+          entity_id: climate.living_heater
+          temperature: 19         

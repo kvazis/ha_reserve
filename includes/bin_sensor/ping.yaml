@@ -1,0 +1,143 @@
+- platform: ping
+  host: 192.168.0.20
+  name: notebook_acer
+  count: 2
+  scan_interval: 30
+    
+- platform: ping
+  host: 192.168.0.21
+  name: notebook_hp
+  count: 2
+  scan_interval: 30
+  
+- platform: ping
+  host: 192.168.0.22
+  name: notebook_sony
+  count: 2
+  scan_interval: 30
+  
+- platform: ping
+  host: 192.168.0.23
+  name: notebook_chuwi
+  count: 2
+  scan_interval: 30
+  
+- platform: ping
+  host: 192.168.0.24
+  name: notebook_acer_15
+  count: 2
+  scan_interval: 30
+  
+- platform: ping
+  host: 192.168.0.29
+  name: printer
+  count: 2
+  scan_interval: 30
+  
+- platform: ping
+  host: 192.168.0.70
+  name: hainst_main
+  count: 2
+  scan_interval: 30
+  
+- platform: ping
+  host: 192.168.0.71
+  name: hainst_mqtt
+  count: 2
+  scan_interval: 30
+  
+- platform: ping
+  host: 192.168.0.72
+  name: hainst_education
+  count: 2
+  scan_interval: 30
+
+- platform: ping
+  host: 192.168.0.74
+  name: hainst_test
+  count: 2
+  scan_interval: 30
+
+- platform: ping
+  host: 192.168.0.75
+  name: hainst_mqtt
+  count: 2
+  scan_interval: 30
+
+- platform: ping
+  host: 192.168.0.80
+  name: gateway_da
+  count: 2
+  scan_interval: 30
+  
+- platform: ping
+  host: 192.168.0.81
+  name: gateway_dd
+  count: 2
+  scan_interval: 30
+  
+- platform: ping
+  host: 192.168.0.82
+  name: gateway_gg
+  count: 2
+  scan_interval: 30
+  
+- platform: ping
+  host: 192.168.0.83
+  name: gateway_kn
+  count: 2
+  scan_interval: 30
+
+- platform: ping
+  host: 192.168.0.125
+  name: camera_xiaofang
+  count: 2
+  scan_interval: 30
+
+- platform: ping
+  host: 192.168.0.126
+  name: camera_reolink_411
+  count: 2
+  scan_interval: 30
+  
+- platform: ping
+  host: 192.168.0.127
+  name: camera_xiaofang1s
+  count: 2
+  scan_interval: 30
+
+- platform: ping
+  host: 192.168.0.128
+  name: camera_reolink_c2
+  count: 2
+  scan_interval: 30
+
+- platform: ping
+  host: 192.168.0.129
+  name: camera_reolink_410
+  count: 2
+  scan_interval: 30
+  
+- platform: ping
+  host: 192.168.0.130
+  name: camera_reolink_e1
+  count: 2
+  scan_interval: 30
+  
+- platform: ping
+  host: 192.168.0.135
+  name: irbase_kitchen
+  count: 2
+  scan_interval: 30
+  
+- platform: ping
+  host: 192.168.0.136
+  name: irbase_gg
+  count: 2
+  scan_interval: 30
+
+- platform: ping
+  host: 192.168.0.142
+  name: airmonitor_gg
+  count: 2
+  scan_interval: 30

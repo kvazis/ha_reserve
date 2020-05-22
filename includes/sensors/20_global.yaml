@@ -1,0 +1,163 @@
+  - platform: template
+    sensors:
+      count_automation:
+        friendly_name: "Автоматизаций в системе - "
+        entity_id:
+          - sensor.time
+        value_template: >
+          {%- set domains = ['automation'] -%}
+          {%- for domain in domains -%}
+            {%- for item in states[domain] -%}
+              {% if loop.first %}
+                {{loop.length}}
+              {% endif %}
+            {%- endfor -%}
+          {%- endfor -%}
+
+  - platform: template
+    sensors:
+      count_automation_on:
+        friendly_name: "Активных автоматизаций - "
+        entity_id:
+          - sensor.time
+        value_template: "{{states.automation | selectattr ('state', 'equalto', 'on') | list | length}}"
+        icon_template: mdi:counter
+        
+  - platform: template
+    sensors:
+      count_automation_off:
+        friendly_name: "Отключенных автоматизаций - "
+        entity_id:
+          - sensor.time
+        value_template: "{{states.automation | selectattr ('state', 'equalto', 'off') | list | length}}"
+        icon_template: mdi:counter
+
+  - platform: template
+    sensors:
+      count_script:
+        friendly_name: "Cкриптов в системе - "
+        entity_id:
+          - sensor.time
+        value_template: >
+          {%- set domains = ['script'] -%}
+          {%- for domain in domains -%}
+            {%- for item in states[domain] -%}
+              {% if loop.first %}
+                {{loop.length}}
+              {% endif %}
+            {%- endfor -%}
+          {%- endfor -%}
+        
+  - platform: template
+    sensors:
+      count_script_on:
+        friendly_name: "Выполняющихся скриптов - "
+        entity_id:
+          - sensor.time
+        value_template: "{{states.script | selectattr ('state', 'equalto', 'on') | list | length}}"
+        icon_template: mdi:counter
+        
+  - platform: template
+    sensors:
+      count_script_off:
+        friendly_name: "Выключенных скриптов - "
+        entity_id:
+          - sensor.time
+        value_template: "{{states.script | selectattr ('state', 'equalto', 'off') | list | length}}"
+        icon_template: mdi:counter
+
+  - platform: template
+    sensors:
+      unavailable_now_light:
+        friendly_name: "Всего недоступных светильников - "
+        entity_id:
+          - sensor.time
+        value_template: "{{states.light | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
+        icon_template: mdi:counter
+        
+  - platform: template
+    sensors:
+      unavailable_now_switch:
+        friendly_name: "Всего недоступных реле - "
+        entity_id:
+          - sensor.time
+        value_template: "{{states.switch | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
+        icon_template: mdi:counter
+        
+  - platform: template
+    sensors:
+      unavailable_now_sensor:
+        friendly_name: "Всего недоступных сенсоров - "
+        entity_id:
+          - sensor.time
+        value_template: "{{states.sensor | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
+        icon_template: mdi:counter
+        
+  - platform: template
+    sensors:
+      unavailable_now_binary_sensor:
+        friendly_name: "Всего недоступных бинарных сенсоров - "
+        entity_id:
+          - sensor.time
+        value_template: "{{states.binary_sensor | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
+        icon_template: mdi:counter
+        
+  - platform: template
+    sensors:
+      load_total_energy:
+        friendly_name: 'Суммарное потребление'
+        unit_of_measurement: "Вт"
+        icon_template: mdi:sigma
+        value_template: 
+         "{{ ((states.sensor.load_158d00010ec4b8.state | float) + 
+              (states.sensor.load_158d000114a1e1.state | float) + 
+              (states.sensor.load_158d00012896cb.state | float) + 
+              (states.sensor.load_158d0001291d12.state | float) + 
+              (states.sensor.load_158d000153dd8e.state | float) + 
+              (states.sensor.load_158d00015751f4.state | float) + 
+              (states.sensor.load_158d0001d35bc0.state | float) + 
+              (states.sensor.load_158d0001fa2934.state | float) + 
+              (states.sensor.load_158d00030a6e78.state | float) +
+              (states.sensor.load_158d0001a2ccab.state | float) +
+              (states.sensor.load_158d0002d7bb2b.state | float) + 
+              (states.sensor.load_04cf8cdf3c764e0a.state | float) + 
+              (states.sensor.load_bwshp2.state | float) + 
+              (states.sensor.load_wifi_6port.state | float) + 
+              (states.sensor.load_wifi_3usb.state | float) + 
+              (states.sensor.load_wifi_socket_usb.state | float)) | round(3) }}"
+              
+  - platform: mqtt
+    state_topic: "power/total_energy/yesterday"
+    name: 'mqtt_power_yesterday_total_energy'
+    unit_of_measurement: 'кВт⋅ч'
+        
+  - platform: mqtt
+    state_topic: "power/total_energy/today"
+    name: 'mqtt_power_today_total_energy'
+    unit_of_measurement: 'кВт⋅ч'
+
+  - platform: mqtt
+    state_topic: "power/total_energy/month"
+    name: 'mqtt_power_month_total_energy'
+    unit_of_measurement: 'кВт⋅ч'
+    
+  - platform: mqtt
+    state_topic: "power/total_energy/lastmonth"
+    name: 'mqtt_power_lastmonth_total_energy'
+    unit_of_measurement: 'кВт⋅ч'
+
+  - platform: template
+    sensors:
+      money_month_total_energy:
+        friendly_name: "Стоимость за текущий месяц"
+        unit_of_measurement: 'грн'
+        value_template: "{{ (states.sensor.mqtt_power_month_total_energy.state | float * 1.68)|round(2) }}"
+        icon_template: mdi:square-inc-cash 
+    
+  - platform: template
+    sensors:
+      money_lastmonth_total_energy:
+        friendly_name: "Стоимость за прошлый месяц"
+        unit_of_measurement: 'грн'
+        value_template: "{{ (states.sensor.mqtt_power_lastmonth_total_energy.state | float * 1.68)|round(2) }}"
+        icon_template: mdi:square-inc-cash 

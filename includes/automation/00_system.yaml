@@ -1,0 +1,27 @@
+- alias: 00_start
+  initial_state: true
+  trigger:
+  - platform: homeassistant
+    event: start
+  action:
+    - service: mqtt.publish
+      data_template:
+         topic: "notification/info"
+         payload_template: '021'
+         retain: true
+    - delay: 00:01:10
+    - service: mqtt.publish
+      data_template:
+         topic: "notification/info"
+         payload_template: '022'
+
+# - alias: 00_purge_base
+#   initial_state: true
+#   trigger:
+#     - platform: time
+#       at: '02:00:00'
+#   action:
+#     - service: recorder.purge
+#       data:
+#           keep_days: 1
+#           repack: true

@@ -1,0 +1,88 @@
+## Фото при входе и отключение
+- alias: 01_enter_photo
+  initial_state: false
+  trigger:
+## Открытие входной двери
+   platform: state
+   entity_id: binary_sensor.0x00158d000119378d_contact
+   from: 'off'
+   to: 'on'
+  action: 
+    - service: script.turn_on
+      entity_id: script.01_photo_door_t
+      
+## Включение съемки при входе     
+- alias: 01_enter_photo_on
+  initial_state: false
+  trigger:
+   - platform: event
+     event_type: timer.finished
+     event_data:
+       entity_id: timer.camphoto
+  action:
+    - service: automation.turn_on
+      entity_id: automation.01_enter_photo
+
+## Запись последнего открытия двери
+- alias: 01_enter_time
+  initial_state: false
+  trigger:
+## Открытие входной двери
+   platform: state
+   entity_id: binary_sensor.0x00158d000119378d_contact
+   from: 'off'
+   to: 'on'
+  action: 
+    - service: mqtt.publish
+      data_template:
+        topic: "binary_sensor/158d000119378d"
+        payload: "{{ states('sensor.time_date')}}"
+        retain: true
+
+## Запись последнего движения в прихожей
+- alias: 01_motion_time
+  initial_state: false
+  trigger:
+## Движение в прихожей
+  - platform: state
+    entity_id: binary_sensor.0x00158d00013f7894_occupancy
+    to: 'on'
+  action: 
+  - service: mqtt.publish
+    data_template:
+      topic: "binary_sensor/158d00013f7894"
+      payload: "{{ states('sensor.time_date')}}"
+      retain: true
+
+## Обнаружение дыма
+- alias: 01_detect_smoke
+  initial_state: false
+  trigger:       
+   platform: state
+   entity_id: binary_sensor.0x00158d000149d28b_smoke
+   to: 'on'
+  action:
+  - service: mqtt.publish
+    data_template:
+      topic: "notification/alarm"
+      payload_template: '0100'
+      retain: true
+  - service: script.turn_on
+    entity_id: script.11_warning
+      
+## Задымление устранено
+- alias: 01_detect_smoke_off
+  initial_state: false
+  trigger:       
+   platform: state
+   entity_id: binary_sensor.0x00158d000149d28b_smoke
+   from: 'on'
+   to: 'off'
+  action:
+  - service: mqtt.publish
+    data_template:
+      topic: "notification/alarm"
+      payload_template: '0101'
+      retain: true
+  - service: script.turn_on
+    entity_id: script.11_all_ok

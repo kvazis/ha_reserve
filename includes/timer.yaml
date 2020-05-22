@@ -1,0 +1,25 @@
+  heater:
+    name: Бойлер выкл через -
+    duration: '01:00:00'
+
+  camphoto:
+    name: Фото на входе через - 
+    duration: '00:03:00'
+    
+  toilet:
+    name: Туалет свет выкл через -
+    duration: '00:10:00'
+    
+  toilet_v:
+    name: Туалет вент. выкл через -
+    duration: '00:10:00'
+
+  bathroom: 
+    name: Ванная вент. выкл через -
+    duration: '00:10:00'
+
+  kitchen:
+    name: Кухня свет выкл через -
+    duration: '00:30:00'
+
+

@@ -1,0 +1,58 @@
+## Фотографии с камер
+
+  photo_xiaofang:
+    alias: Фотография xiaofang и отправка в телеграмм
+    sequence:
+       - service: mqtt.publish
+         data_template:
+           topic: "notification/messages"
+           payload_template: '0001'
+
+  photo_xiaofang1s:
+    alias: Фотография xiaofang 1s и отправка в телеграмм
+    sequence:
+       - service: mqtt.publish
+         data_template:
+           topic: "notification/messages"
+           payload_template: '0002'
+
+  photo_reolink:
+    alias: Фотография Reolink 411 и отправка в телеграмм
+    sequence:
+       - service: mqtt.publish
+         data_template:
+           topic: "notification/messages"
+           payload_template: '0003'
+
+  photo_reolink2:
+    alias: Фотография Reolink C2 и отправка в телеграмм
+    sequence:
+       - service: mqtt.publish
+         data_template:
+           topic: "notification/messages"
+           payload_template: '0004'
+
+  photo_reolink3:
+    alias: Фотография Reolink 410 и отправка в телеграмм
+    sequence:
+       - service: mqtt.publish
+         data_template:
+           topic: "notification/messages"
+           payload_template: '0005'
+
+  photo_reolink4:
+    alias: Фотография Reolink E1 и отправка в телеграмм
+    sequence:
+       - service: mqtt.publish
+         data_template:
+           topic: "notification/messages"
+           payload_template: '0006'
+           
+  video_reolink2:
+    alias: Запись с камеры Реолинк С2 и отправка в телеграмм
+    sequence:
+       - service: mqtt.publish
+         data_template:
+           topic: "notification/messages"
+           payload_template: '0014'
+    

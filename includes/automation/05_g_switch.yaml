@@ -1,0 +1,34 @@
+- alias: 05_ilife_a4
+  id: Запуск робота пылесоса
+  initial_state: false
+  trigger:
+    platform: time
+    at: '10:30:00'
+  condition:
+  - condition: time
+    weekday:
+      - mon
+      - wed
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id: script.ilife_a4
+    
+- alias: 05_usb_cool_auto
+  id: Охлаждающая подставка
+  initial_state: false
+  trigger:
+    - platform: time_pattern
+      minutes: '/5'
+    - platform: state
+      entity_id:
+        - sensor.living_day_work
+  action:
+    service_template: >-
+      {%- if states.sensor.living_day_work.state == 'Включен' -%}
+          switch.turn_on
+      {%- elif states.sensor.living_day_work.state == 'Выключен' -%}
+          switch.turn_off
+      {%- endif -%}  
+    entity_id: 
+       - switch.xiaomi_wifi_socket_usb_usb

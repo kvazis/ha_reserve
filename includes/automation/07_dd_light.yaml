@@ -1,0 +1,174 @@
+
+- id: ДД, ручное управление люстрой
+  alias: 07_dd_philips
+  initial_state: false
+  trigger:
+# Выключатель у входа
+  - platform: state
+    entity_id: sensor.0x00158d000163e571_click
+    to: 'right'
+# Кнопка возле кровати
+  - platform: state
+    entity_id: sensor.0x00158d00013f82b7_click
+    to: 'double'
+# Кубик
+  - platform: state
+    entity_id: sensor.0x00158d00011063da_action
+    to: 'flip90'  
+  action:    
+    - service: script.turn_on
+      data_template:
+        entity_id: >-
+         {%- if states.light.philips_07_ceiling.state == 'off'-%}
+         script.07_dd_philpis_on
+         {%- elif states.light.philips_07_ceiling.state == 'on' and states("sensor.philips_07_ceiling") | int <= 1  -%}
+         script.07_dd_philpis_off
+         {%- elif states.light.philips_07_ceiling.state == 'on' and states("sensor.philips_07_ceiling") | int >= 2  -%}
+         script.07_dd_philpis_on
+         {% endif %}  
+
+- id: ДД, автоматическое включение люстры
+  alias: 07_dd_philips_auto_on
+  initial_state: false
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.0x00158d0001a66222_occupancy
+    to: 'on'
+  condition:
+   condition: and
+   conditions:
+   - condition: state
+     entity_id: light.philips_07_ceiling
+     state: 'off'
+   - condition: or
+     conditions:
+         - condition: numeric_state
+           entity_id: sensor.illumination_286c07f0ad27
+           below: 800
+         - condition: sun
+           after: sunset
+         - condition: sun
+           before: sunrise
+  action:
+   - service: xiaomi_miio.light_set_scene
+     entity_id: light.philips_07_ceiling
+     data_template:
+       scene: >           
+         {% set hour=states("sensor.time").split(':')[0] | int %}
+         {%- if hour >= 0 and hour < 8  -%}
+         4
+         {%- elif hour >= 8 and hour < 10  -%}
+         3
+         {%- elif hour >= 10 and hour < 20  -%}
+         2
+         {%- elif hour >= 20 and hour < 22  -%}
+         3
+         {%- elif hour >= 22 and hour < 24  -%}
+         4
+         {% endif %}
+        
+
+- id: ДД, автоматическое выключение люстры
+  alias: 07_dd_philips_auto_off
+  initial_state: false
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.0x00158d0001a66222_occupancy
+    from: 'on'
+    to: 'off' 
+  condition:
+   - condition: state
+     entity_id: light.philips_07_ceiling
+     state: 'on'
+   - condition: numeric_state
+     entity_id: sensor.philips_07_ceiling
+     above: 1
+  action:
+   - service: light.turn_off
+     entity_id: light.philips_07_ceiling
+
+- id: ДД, отключение люстры после сбоя
+  alias: 07_dd_philips_auto_off_unavailable
+  initial_state: false
+  trigger:
+  - platform: state
+    entity_id: light.philips_07_ceiling
+    from: 'unavailable'
+    to: 'on'
+  action:
+   - service: light.turn_off
+     entity_id: light.philips_07_ceiling
+
+- id: ДД, ручное управление бра
+  alias: 07_dd_bra
+  initial_state: false
+  trigger:
+  - platform: state
+    entity_id: sensor.0x00158d000163e571_click
+    to: 'left'
+# Кнопка возле кровати
+  - platform: state
+    entity_id: sensor.0x00158d00013f82b7_click
+    to: 'single' 
+  action: 
+  - service: script.turn_on
+    data_template:
+     entity_id: >-
+        {%- if states.light.yeelight_07_whitebulb.state  == 'off' -%}
+        script.07_dd_bra_on
+        {%- elif states.light.yeelight_07_whitebulb.state  == 'on' -%}
+        script.07_dd_bra_off
+        {%- endif -%}
+
+- id: ДД, включение питания на настольную лампу
+  alias: 07_table_autoswitch
+  initial_state: false
+  trigger:
+  - platform: state
+    entity_id: switch.0x00158d00030a6e78_switch
+    to: 'off'
+  action:
+  - delay: 00:00:03
+  - service: switch.turn_on
+    entity_id:
+      - switch.0x00158d00030a6e78_switch        
+        
+- id: ДД, выключение всего освещения
+  alias: 07_dd_all_off
+  initial_state: false
+  trigger:
+  - platform: state
+    entity_id: sensor.0x00158d000163e571_click
+    to: 'both'
+  - platform: state
+    entity_id: sensor.0x00158d00011063da_action
+    to: 'fall'
+  action:
+    - service: script.turn_on
+      entity_id: script.07_dd_lightoff
+
+- id: ДД, ручное управление принтером
+  alias: 07_hp_toggle
+  initial_state: false
+  trigger:
+  - platform: state
+    entity_id: sensor.0x00158d00011063da_action
+    to: 'flip180'  
+  action:
+    service: switch.toggle
+    entity_id: switch.plug1
+        
+- id: ДД, запись последнего движения
+  alias: 07_dd_motion_time
+  initial_state: false
+  trigger:
+## Движение в детской Д
+  - platform: state
+    entity_id: binary_sensor.0x00158d0001a66222_occupancy
+    to: 'on'
+  action: 
+  - service: mqtt.publish
+    data_template:
+      topic: "binary_sensor/158d0001a66222"
+      payload: "{{ states('sensor.time_date')}}"
+      retain: true

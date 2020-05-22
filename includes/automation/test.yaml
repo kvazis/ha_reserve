@@ -1,0 +1,13 @@
+- alias: zigbee2mqtt_test
+  id: 'zigbee2mqtt'
+  initial_state: true
+  trigger:
+  - platform: state
+    entity_id: sensor.0x00158d0001a2ccab_click
+    to: 'right_single'
+  action: 
+    - service: mqtt.publish
+      data_template:
+        topic: "test/zigbee2mqtt_test"
+        payload: "Клик кнопкой"
+        retain: true

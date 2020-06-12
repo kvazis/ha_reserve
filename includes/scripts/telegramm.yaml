@@ -42,4 +42,9 @@
              {{"\U0001F4C3"}} по устройствам будет готов через 1 минуту  
              {{"\U0001F4A1"}} недоступно - {{ states('sensor.unavailable_now_light') }}
              {{"\U0001F50C"}} недоступно - {{ states('sensor.unavailable_now_switch') }} 
+             
+  vacancy:
+    sequence:
+     - service: switch.toggle
+       entity_id: switch.vacancy
         

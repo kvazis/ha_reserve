@@ -6,11 +6,11 @@
       minutes: '/1'
   condition:
     - condition: state
-      entity_id: switch.plug_158d0001fa2934
+      entity_id: switch.0x00158d0001fa2934_switch
       state: 'off'
   action:
    - service: switch.turn_on
-     entity_id: switch.plug_158d0001fa2934
+     entity_id: switch.0x00158d0001fa2934_switch
      
 ## Включение люстры
 - alias: 04_kn_ceiling
@@ -27,12 +27,11 @@
 ## Подброс кубика
   - platform: state
     entity_id: sensor.0x00158d000101bdc6_action
-    to: 'fall'      
+    to: 'fall'    
   action:    
     - service: switch.toggle
       entity_id: switch.04_kn_mainlight 
   
-
 # Автоматическое включение люстры
 - alias: 04_kn_ceiling_auto_on
   initial_state: false
@@ -62,7 +61,7 @@
   initial_state: false
   trigger:
   - platform: state
-    entity_id: binary_sensor.motion_sensor_158d0001e16204
+    entity_id: binary_sensor.0x00158d0001e16204_occupancy
     from: 'on'
     to: 'off' 
   condition:
@@ -142,7 +141,7 @@
 ## Двойной тап кубиком
   - platform: state
     entity_id: sensor.0x00158d000101bdc6_action
-    to: 'tap'
+    to: 'tap'  
   action:
     service: script.turn_on
     entity_id: script.xiaomi_tv
@@ -158,7 +157,7 @@
   action:
     service: script.turn_on
     entity_id: script.mini8_android
-
+    
 ## Датчик вибрации     
 - alias: 04_photo_on_vibro
   initial_state: false
@@ -179,10 +178,9 @@
   initial_state: false
   trigger:
 ## Движение в кухне
-  - platform: event
-    event_type: xiaomi_aqara.motion
-    event_data:
-      entity_id: binary_sensor.motion_sensor_158d0001e16204
+  - platform: state
+    entity_id: binary_sensor.0x00158d0001e16204_occupancy
+    to: 'on'
   action: 
   - service: mqtt.publish
     data_template:

@@ -90,25 +90,6 @@ talk_smart_zak:
      entity_id:
         - light.gateway_light_34ce0088b039
 
-talk_05_fresh:
-  sequence:
-   - service: light.turn_on
-     entity_id:
-        - light.gateway_light_34ce0088b039
-     data_template:
-       brightness_pct: 20
-       rgb_color: [0, 0, 255]
-   - service: xiaomi_aqara.play_ringtone
-     data:
-      gw_mac: 34:CE:00:88:B0:39
-      ringtone_id: 10010
-      ringtone_vol: 50
-   - delay: 00:00:04
-   - service: light.turn_off
-     entity_id:
-        - light.gateway_light_34ce0088b039
-
-
 # Шлюз ДД
 talk_smart_done:
   sequence:
@@ -202,25 +183,6 @@ talk_sleep:
      entity_id:
         - light.gateway_light_f0b429cc1f11
 
-talk_08_fresh:
-  sequence:
-   - service: light.turn_on
-     entity_id:
-       - light.gateway_light_f0b429cc1f11
-     data_template:
-       brightness_pct: 20
-       rgb_color: [0, 0, 255]
-   - service: xiaomi_aqara.play_ringtone
-     data:
-       gw_mac: F0:B4:29:CC:1F:11
-       ringtone_id: 10010
-       ringtone_vol: 50
-   - delay: 00:00:04
-   - service: light.turn_off
-     entity_id:
-        - light.gateway_light_f0b429cc1f11
-
-        
 # Шлюз ДД+ДА
 talk_eat:
   sequence:

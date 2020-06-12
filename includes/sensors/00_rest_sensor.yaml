@@ -1,20 +1,4 @@
-- platform: rest
-  resource: http://192.168.0.70:8123/api/states/group.scenario
-  name: main_scenario_group
-  force_update: true
-  headers: 
-    Authorization: !secret main_secret_token
-    content-type: 'application/json'
-  value_template: '{{ value_json.state }}'
-    
-- platform: rest
-  resource: http://192.168.0.70:8123/api/states/sensor.online_custom
-  name: main_state
-  force_update: true
-  headers: 
-    Authorization: !secret main_secret_token
-    content-type: 'application/json'
-  value_template: '{{ value_json.state }}'
+
 
 # - platform: rest
 #   resource: http://192.168.0.71:8123/api/states/group.scenario
@@ -44,7 +28,7 @@
   value_template: '{{ value_json.state }}'
   
 - platform: rest
-  resource: http://192.168.0.74:8123/api/states/sensor.online_custom
+  resource: http://192.168.0.73:8123/api/states/sensor.online_custom
   name: test_state
   force_update: true
   headers: 
@@ -53,7 +37,7 @@
   value_template: '{{ value_json.state }}'
   
 - platform: rest
-  resource: http://192.168.0.71:8123/api/states/sensor.online_custom
+  resource: http://192.168.0.75:8123/api/states/sensor.online_custom
   name: mqtt_state
   force_update: true
   headers: 

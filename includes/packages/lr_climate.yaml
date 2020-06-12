@@ -24,7 +24,7 @@ lr_climate:
             value_template: >-
               {{ is_state('binary_sensor.0x00158d000445206b_contact', 'off')  
                  and is_state('binary_sensor.0x00158d00013ed373_contact', 'off')
-                 and is_state('binary_sensor.radiator', 'on')                 
+                 and is_state('binary_sensor.radiator', 'on')
                  and is_state('sensor.living_heat_work', 'Включен') }}
             icon_template: >-
               {% if is_state("binary_sensor.living_heat", "on") %}
@@ -105,7 +105,7 @@ lr_climate:
         entity_ids:
           - sensor.0x00158d00015aebb6_temperature
           - sensor.05_smartmi_temperature
-          - sensor.05_mi_air_temperature
+          - sensor.cleargrass_air_temperature
     
           
     # Cредняя влажность
@@ -115,7 +115,7 @@ lr_climate:
         entity_ids:
           - sensor.0x00158d00015aebb6_humidity
           - sensor.05_smartmi_humidity
-          - sensor.05_mi_air_humidity
+          - sensor.cleargrass_air_humidity
           
     switch:
     

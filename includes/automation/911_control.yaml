@@ -10,64 +10,6 @@
 #     data: 
 #       duration: 00:02:00
 
-- alias: 911_main_lost
-  initial_state: true
-  trigger:
-   platform: state
-   entity_id: sensor.main_state
-   to: 'unavailable'
-  action:
-    - service: mqtt.publish
-      data_template:
-         topic: "notification/error"
-         payload_template: '011'
-
-- alias: 911_main_online
-  initial_state: true
-  trigger:
-   platform: state
-   entity_id: sensor.main_state
-   from: 'unavailable'
-  action:
-    - service: mqtt.publish
-      data_template:
-         topic: "notification/error"
-         payload_template: '012'
-        
-- alias: 911_scenario_on
-  initial_state: true
-  trigger:
-   - platform: state
-     entity_id: sensor.main_scenario_group
-     to: 'unavailable'
-   - platform: state
-     entity_id: sensor.main_scenario_group
-     to: 'off'
-  condition:
-    - condition: state
-      entity_id: group.scenario
-      state: 'off'     
-  action:
-    - service: homeassistant.turn_on
-      entity_id:
-         - group.scenario
-
-         
-- alias: 911_scenario_off
-  initial_state: true
-  trigger:
-   platform: state
-   entity_id: sensor.main_scenario_group
-   to: 'on'
-  condition:
-    - condition: state
-      entity_id: group.scenario
-      state: 'on'     
-  action:
-    - service: homeassistant.turn_off
-      entity_id:
-         - group.scenario
-
 - alias: 911_mqtt_lost
   initial_state: false
   trigger:
@@ -77,7 +19,7 @@
   action:
     - service: notify.telegram
       data:
-        message: "Потеря связи с MQTT сервером, Khadas VIM 2 - {{ states('sensor.time_date') }} ."
+        message: "Потеря связи с MQTT сервером - {{ states('sensor.time_date') }} ."
 
 - alias: 911_mqtt_online
   initial_state: false
@@ -88,7 +30,7 @@
   action:
     - service: notify.telegram
       data:
-        message: "Связь с MQTT сервером, Khadas VIM 2 восстановлена в - {{ states('sensor.time_date') }} ."
+        message: "Связь с MQTT сервером восстановлена в - {{ states('sensor.time_date') }} ."
         
         
 - alias: 911_rasp3_lost

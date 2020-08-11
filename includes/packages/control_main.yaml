@@ -76,6 +76,7 @@ control_main:
               entity_id: group.scenario
               state: 'on'     
           action:
+            - delay: 00:00:45
             - service: homeassistant.turn_off
               entity_id:
                  - group.scenario

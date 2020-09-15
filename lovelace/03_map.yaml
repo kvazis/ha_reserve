@@ -12,6 +12,7 @@ cards:
           entities:
           - entity: sensor.alex
           - entity: sensor.360_alex_battery
+            icon: mdi:cellphone-android
           - entity: sensor.alex_rssi_summ
           
         - type: custom:entity-attributes-card
@@ -93,3 +94,4 @@ cards:
           default_zoom: 15
           entities:
             - device_tracker.life360_dima
+

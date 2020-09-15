@@ -44,7 +44,7 @@
       to: 'right'
 ## Выключатель на столе - левая кнопка
     - platform: state
-      entity_id: sensor.0x00158d00027c0e2b_click
+      entity_id: sensor.lr_ws_2ch_table_action
       to: 'left'
 ## 3 кнопка Aqara Opple
     - platform: state
@@ -82,7 +82,7 @@
       to: 'button_4_single'
 ## Выключатель на столе - правая кнопка
     - platform: state
-      entity_id: sensor.0x00158d00027c0e2b_click
+      entity_id: sensor.lr_ws_2ch_table_action
       to: 'right'
 ## Тряска кубика
     - platform: state
@@ -152,7 +152,7 @@
       to: 'both'
 ## Выключатель на столе - обе кнопки
     - platform: state
-      entity_id: sensor.0x00158d00027c0e2b_click
+      entity_id: sensor.lr_ws_2ch_table_action
       to: 'both'
   action:    
     - service: script.turn_on
@@ -178,7 +178,7 @@
     to: 'single'
 ## Выключатель на столе - левая кнопка х2
   - platform: state
-    entity_id: sensor.0x00158d00027c0e2b_click
+    entity_id: sensor.lr_ws_2ch_table_action
     to: 'left_double'
 ## Переворот кубика на 90 градусов
   - platform: state
@@ -202,7 +202,7 @@
     to: 'button_6_single'
 ## Выключатель на столе - правая кнопка х2
   - platform: state
-    entity_id: sensor.0x00158d00027c0e2b_click
+    entity_id: sensor.lr_ws_2ch_table_action
     to: 'right_double'
   action:    
     - service: switch.toggle
@@ -230,10 +230,10 @@
   trigger:
 ## Выключатель на входе на балкон
   - platform: state
-    entity_id: sensor.0x00158d00010b5aee_click
+    entity_id: sensor.0x00158d00010b5aee_action
     to: 'single' 
   - platform: state
-    entity_id: sensor.0x00158d0001b86d2e_click
+    entity_id: sensor.0x00158d0001b86d2e_action
     to: 'single' 
   - platform: state
     entity_id: binary_sensor.lr_balcony_motion
@@ -256,10 +256,10 @@
   trigger:
 ## Выключатель на входе на балкон
   - platform: state
-    entity_id: sensor.0x00158d00010b5aee_click
+    entity_id: sensor.0x00158d00010b5aee_action
     to: 'single' 
   - platform: state
-    entity_id: sensor.0x00158d0001b86d2e_click
+    entity_id: sensor.0x00158d0001b86d2e_action
     to: 'single' 
   - platform: state
     entity_id: binary_sensor.0x00158d000449b773_occupancy

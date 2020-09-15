@@ -50,11 +50,11 @@ logbook:
 # Включение истории
 history:
 
-panel_iframe:
-  sls_gateway:
-    title: 'SLS Gateway'
-    icon: mdi:zigbee
-    url: 'http://192.168.0.84'
+# panel_iframe:
+#   sls_gateway:
+#     title: 'SLS Gateway'
+#     icon: mdi:zigbee
+#     url: 'http://192.168.0.84'
 
 lovelace:
   mode: yaml
@@ -92,7 +92,7 @@ lovelace:
   
 mqtt:
 #   broker: core-mosquitto
-  broker: 192.168.0.75
+  broker: 192.168.0.74
   discovery: true
   discovery_prefix: homeassistant
   username: mqtt
@@ -152,6 +152,10 @@ life360:
     - moving
   warning_threshold: 2
   error_threshold: 3
+  
+# sonoff:
+#   username: !secret sonoff_user
+#   password: !secret sonoff_psw  
 
 # Качество воздуха
 air_quality:

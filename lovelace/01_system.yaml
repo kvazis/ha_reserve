@@ -230,9 +230,10 @@ cards:
           hours_to_show: 72
           
         - type: custom:mini-graph-card
+          icon: mdi:database
           entities:
-           - entity: sensor.home_assistant_v2_db
-             name: Объем базы Home Assistant
+           - entity: sensor.maria_db          
+             name: Объем базы Maria DB
           color_thresholds:
             - value: 500
               color: "#7FFF00"

@@ -44,6 +44,14 @@ switch.0x00158d00010ec4b8_switch:
   icon: mdi:cup-water
 
 ## Сенсоры 
+sensor.0x00158d0002d7bb2b_power:
+  friendly_name: Детская А отопление и рабочий стол 
+  icon: mdi:flash
+  unit_of_measurement: 'Вт'
+sensor.0x00158d00010ec4b8_power:
+  friendly_name: Детская А увлажнитель 
+  icon: mdi:flash
+  unit_of_measurement: 'Вт'
 sensor.08_mean_humidity:
   friendly_name: Детская А средняя влажность
   icon: mdi:water-percent  

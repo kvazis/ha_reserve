@@ -17,8 +17,27 @@
     sequence:
         - service: homeassistant.restart
         
+        
   stub:
     sequence:
       - service: homeassistant.update_entity
         entity_id:
-         -  sensor.last_boot_custom
+         - sensor.reserve_state
+         
+  thermostat_on:
+    sequence:
+       - service: climate.turn_on
+         entity_id:
+          - climate.kn_heater
+          - climate.living_heater
+          - climate.dd_heater
+          - climate.da_heater
+          
+  thermostat_off:
+    sequence:
+       - service: climate.turn_off
+         entity_id:
+          - climate.kn_heater
+          - climate.living_heater
+          - climate.dd_heater
+          - climate.da_heater

@@ -1,4 +1,4 @@
-dd_humidification:
+hum_dd:
 
     binary_sensor:
     
@@ -19,7 +19,6 @@ dd_humidification:
                  and is_state('binary_sensor.0x00158d00015843d4_contact', 'off')
                  and is_state('binary_sensor.dd_hum_mode', 'on')
                  and is_state('light.xiaomi_07_table', 'off')
-                 and is_state('binary_sensor.humidification', 'on') 
                  and is_state('sensor.dd_day_work', 'Включен') }}
             icon_template: >-
               {% if is_state("binary_sensor.dd_hum", "on") %}

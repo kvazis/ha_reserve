@@ -1,6 +1,6 @@
 - alias: 01_enter_photo
   description: "Фото при входе"
-  initial_state: false
+  initial_state: true
   mode: single
   trigger:
 ## Открытие входной двери
@@ -8,6 +8,10 @@
      entity_id: binary_sensor.0x00158d000119378d_contact
      from: 'off'
      to: 'on'
+  condition:
+   - condition: state
+     entity_id: switch.control_mode
+     state: 'on'     
   action: 
    - service: mqtt.publish
      data_template:
@@ -19,27 +23,19 @@
    - delay:
        minutes: 3
       
-# ## Включение съемки при входе     
-# - alias: 01_enter_photo_on
-#   initial_state: true
-#   trigger:
-#   - platform: event
-#      event_type: timer.finished
-#      event_data:
-#       entity_id: timer.camphoto
-#   action:
-#     - service: automation.turn_on
-#       entity_id: automation.01_enter_photo
-
 ## Запись последнего открытия двери
 - alias: 01_enter_time
-  initial_state: false
+  initial_state: true
   trigger:
 ## Открытие входной двери
    platform: state
    entity_id: binary_sensor.0x00158d000119378d_contact
    from: 'off'
    to: 'on'
+  condition:
+   - condition: state
+     entity_id: switch.control_mode
+     state: 'on'
   action: 
     - service: mqtt.publish
       data_template:
@@ -49,12 +45,16 @@
 
 ## Запись последнего движения в прихожей
 - alias: 01_motion_time
-  initial_state: false
+  initial_state: true
   trigger:
 ## Движение в прихожей
   - platform: state
     entity_id: binary_sensor.0x00158d00013f7894_occupancy
     to: 'on'
+  condition:
+   - condition: state
+     entity_id: switch.control_mode
+     state: 'on'
   action: 
   - service: mqtt.publish
     data_template:

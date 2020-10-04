@@ -1,19 +1,22 @@
 ## Возобновление питания на выключателе люстры
 - alias: 02_toilet_power
-  initial_state: false
+  initial_state: true
   trigger:       
    - platform: time_pattern
      minutes: '/1'
   condition:
    - condition: template
-     value_template: "{{ states('switch.0x00158d00014dceb3_switch_left') != 'on' }}"         
+     value_template: "{{ states('switch.0x00158d00014dceb3_switch_left') != 'on' }}"
+   - condition: state
+     entity_id: switch.control_mode
+     state: 'on' 
   action:
    - service: switch.turn_on
      entity_id: switch.0x00158d00014dceb3_switch_left
 
 # Перезагрузка зависшей люстры
 - alias: 02_toilet_reboot
-  initial_state: false
+  initial_state: true
   trigger:
   - platform: state
     entity_id: light.yeelight_02_ceiling
@@ -21,9 +24,12 @@
     for:
       minutes: 5
   condition:
-    condition: numeric_state
-    entity_id: sensor.unavailable_now_light
-    below: 5
+   - condition: numeric_state
+     entity_id: sensor.unavailable_now_light
+     below: 5
+   - condition: state
+     entity_id: switch.control_mode
+     state: 'on' 
   action:
     - service: mqtt.publish
       data_template:
@@ -35,11 +41,15 @@
 
 # Автоматическая установка яркости
 - alias: 02_toilet_light
-  initial_state: false
+  initial_state: true
   trigger:
   - platform: state
     entity_id: light.yeelight_02_ceiling
     to: 'on'
+  condition:
+   - condition: state
+     entity_id: switch.control_mode
+     state: 'on'  
   action:
   - service: light.turn_on
     entity_id:
@@ -55,7 +65,7 @@
          {% endif %}
        kelvin: 4000
 
-## Таймер освещения вкл
+## Таймер освещения обновление
 - alias: 02_toilet_light_timer_reload
   initial_state: true
   trigger:
@@ -87,7 +97,7 @@
 
 # Включение освещения 
 - alias: 02_toilet_light_on
-  initial_state: false
+  initial_state: true
   trigger:
 # Выключатель на входе в туалет
   - platform: state
@@ -105,6 +115,9 @@
   - condition: state
     entity_id: light.yeelight_02_ceiling
     state: 'off'
+  - condition: state
+    entity_id: switch.control_mode
+    state: 'on'  
   action:
   - service: light.turn_on
     entity_id:
@@ -112,7 +125,7 @@
 
 # Выключение освещения       
 - alias: 02_toilet_light_off
-  initial_state: false
+  initial_state: true
   trigger:
 # Таймер
   - platform: event
@@ -131,14 +144,17 @@
   - condition: state
     entity_id: light.yeelight_02_ceiling
     state: 'on'
+  - condition: state
+    entity_id: switch.control_mode
+    state: 'on' 
   action:
   - service: light.turn_off
     entity_id:
       - light.yeelight_02_ceiling
  
-# Вентилатор и выключение освещения с задержкой  
+# Вентилятор и выключение освещения с задержкой  
 - alias: 02_toilet_light_off_delay
-  initial_state: false
+  initial_state: true
   trigger:
 # Выключатель в туалете
   - platform: state
@@ -146,42 +162,35 @@
     to: 'both'
   condition:
   - condition: state
-    entity_id: light.yeelight_02_ceiling
-    state: 'on'
+    entity_id: switch.control_mode
+    state: 'on'  
   action:
-  - service: switch.toggle
+  - service: light.turn_off
+    entity_id:
+      - light.yeelight_02_ceiling
+  - service: switch.turn_on
     entity_id: 
          - switch.0x00158d00014dceb3_switch_right
   - service: light.turn_on
     entity_id:
-      - light.yeelight_02_ceiling
-    data_template:
-       brightness_step_pct: >
-         {%- if states("binary_sensor.tod_night") == 'on' -%}
-         -10
-         {%- elif states("binary_sensor.tod_day") == 'on'  -%}
-         -60
-         {%- else -%}
-         -35
-         {% endif %}
-       kelvin: 4000   
-  - service: light.turn_on
-    entity_id:
-     - light.sonoff_02_mirror
+     - light.tt_mirror
   - delay: 00:00:15
   - service: light.turn_off
     entity_id:
-      - light.yeelight_02_ceiling
-      - light.sonoff_02_mirror
+      - light.tt_mirror
 
 # Управление вентиляцией   
 - alias: 02_toilet_vent
-  initial_state: false
+  initial_state: true
   trigger:
 # Выключатель в туалете
   - platform: state
     entity_id: sensor.0x00158d000128cd1a_click
-    to: 'right'    
+    to: 'right' 
+  condition:
+  - condition: state
+    entity_id: switch.control_mode
+    state: 'on' 
   action:
   - service: switch.toggle
     entity_id: 
@@ -213,12 +222,16 @@
 
 # Выключение вентиляциии
 - alias: 02_toilet_vent_off
-  initial_state: false
+  initial_state: true
   trigger:       
   - platform: event
     event_type: timer.finished
     event_data:
       entity_id: timer.toilet_v
+  condition:
+  - condition: state
+    entity_id: switch.control_mode
+    state: 'on' 
   action:
   - service: switch.turn_off
     entity_id: 
@@ -226,12 +239,16 @@
 
 ## Запись последнего движения в туалете
 - alias: 02_toilet_motion_time
-  initial_state: false
+  initial_state: true
   trigger:
 ## Движение в туалете
   - platform: state
     entity_id: binary_sensor.0x00158d0001a24e71_occupancy
     to: 'on'
+  condition:
+  - condition: state
+    entity_id: switch.control_mode
+    state: 'on' 
   action: 
   - service: mqtt.publish
     data_template:

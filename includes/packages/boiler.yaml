@@ -115,7 +115,7 @@ bolier:
     
       - id: Проверка корректности включения бойлера
         alias: boiler_impossible
-        initial_state: false
+        initial_state: true
         trigger:
          - platform: state
            entity_id: switch.0x00158d00015751f4_switch
@@ -124,6 +124,9 @@ bolier:
          - condition: state
            entity_id: binary_sensor.boiler
            state: 'off'
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
         action:
          - service: switch.turn_off
            entity_id: switch.0x00158d00015751f4_switch
@@ -135,7 +138,7 @@ bolier:
     
       - id: Включение бойлера
         alias: boiler_on
-        initial_state: false
+        initial_state: true
         trigger:    
          - platform: state
            entity_id: binary_sensor.boiler_on
@@ -148,13 +151,16 @@ bolier:
          - condition: state
            entity_id: switch.0x00158d00015751f4_switch
            state: 'off'
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
         action:
          - service: switch.turn_on
            entity_id: switch.0x00158d00015751f4_switch
            
       - id: Выключение бойлера
         alias: boiler_off
-        initial_state: false
+        initial_state: true
         trigger:    
          - platform: state
            entity_id: binary_sensor.boiler_on
@@ -171,13 +177,16 @@ bolier:
          - condition: state
            entity_id: switch.0x00158d00015751f4_switch
            state: 'on'
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
         action:
          - service: switch.turn_off
            entity_id: switch.0x00158d00015751f4_switch
     
       - id: Уведомление при включении бойлера
         alias: boiler_notify_on
-        initial_state: false
+        initial_state: true
         trigger:
          - platform: state
            entity_id: switch.0x00158d00015751f4_switch
@@ -185,6 +194,9 @@ bolier:
         condition:
          - condition: state
            entity_id: binary_sensor.boiler
+           state: 'on'
+         - condition: state
+           entity_id: switch.control_mode
            state: 'on'
         action:
          - service: mqtt.publish
@@ -195,7 +207,7 @@ bolier:
              
       - id: Уведомление при выключении бойлера
         alias: boiler_notify_off
-        initial_state: false
+        initial_state: true
         trigger:
          - platform: state
            entity_id: switch.0x00158d00015751f4_switch
@@ -203,6 +215,9 @@ bolier:
         condition:
          - condition: state
            entity_id: binary_sensor.boiler
+           state: 'on'
+         - condition: state
+           entity_id: switch.control_mode
            state: 'on'
         action:
          - service: mqtt.publish
@@ -227,6 +242,9 @@ bolier:
          - condition: state
            entity_id: binary_sensor.boiler_on
            state: 'off'
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
         action:
           - service: timer.start
             entity_id: timer.heater
@@ -244,6 +262,9 @@ bolier:
          - condition: state
            entity_id: timer.heater
            state: 'active'
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
         action:
           - service: timer.cancel
             entity_id: timer.heater
@@ -279,8 +300,3 @@ bolier:
          sequence:
           - service: switch.turn_off
             entity_id: switch.0x00158d00015751f4_switch
-    
-    
-    
-    
-    

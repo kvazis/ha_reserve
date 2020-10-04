@@ -13,11 +13,15 @@ en_smoke:
     
         - id: Прихожая, обнаружение дыма
           alias: en_detect_smoke
-          initial_state: false
+          initial_state: true
           trigger:       
            - platform: state
              entity_id: binary_sensor.0x00158d000149d28b_smoke
              to: 'on'
+          condition:
+            - condition: state
+              entity_id: switch.control_mode
+              state: 'on'
           action:
             - service: mqtt.publish
               data_template:
@@ -34,12 +38,16 @@ en_smoke:
               
         - id: Прихожая, задымление устранено
           alias: en_detect_smoke_off
-          initial_state: false
+          initial_state: true
           trigger:       
            - platform: state
              entity_id: binary_sensor.0x00158d000149d28b_smoke
              from: 'on'
              to: 'off'
+          condition:
+            - condition: state
+              entity_id: switch.control_mode
+              state: 'on'
           action:
             - service: mqtt.publish
               data_template:

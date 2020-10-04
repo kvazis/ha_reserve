@@ -151,7 +151,7 @@ away:
                 
       - id: Никого нет дома
         alias: away_from_home
-        initial_state: false
+        initial_state: true
         trigger:
         - platform: state
           entity_id: binary_sensor.occupancy
@@ -159,6 +159,9 @@ away:
           for:
             minutes: 5
         condition:
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
          - condition: state
            entity_id: switch.away
            state: 'off'
@@ -168,13 +171,16 @@ away:
             
       - id: Выключение режима никого нет дома
         alias: back_to_home
-        initial_state: false
+        initial_state: true
         trigger:
         - platform: state
           entity_id: binary_sensor.0x00158d000119378d_contact
           from: 'off'
           to: 'on'
         condition:
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
          - condition: state
            entity_id: switch.away
            state: 'on'

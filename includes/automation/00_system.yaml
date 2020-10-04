@@ -18,7 +18,7 @@
          
 - id: Проверка термостатов
   alias: check_thermostate
-  initial_state: false
+  initial_state: true
   trigger:
   - platform: homeassistant
     event: start
@@ -27,6 +27,10 @@
   - platform: state
     entity_id:
       - binary_sensor.radiator
+  condition:
+  - condition: state
+    entity_id: switch.control_mode
+    state: 'on'
   action:
   - service: script.turn_on
     data_template:
@@ -35,37 +39,4 @@
         script.thermostat_on
         {%- elif states.binary_sensor.radiator.state == 'off' -%}
         script.thermostat_off
-        {%- endif -%} 
-
-# - id: Контроль счетчика радиации
-#   alias: geiger_control
-#   initial_state: true
-#   trigger:
-#     - platform: homeassistant
-#       event: start
-#     - platform: state
-#       entity_id:
-#         - sensor.0x00124b001d3bdce0_radioactive_events_per_minute
-#   action:
-#   - service: timer.cancel
-#     entity_id: timer.geiger
-#   - service: timer.start
-#     entity_id: timer.geiger
- 
-
-# - id: Перезапуск счетчика радиации
-#   alias: geiger_reload
-#   initial_state: false
-#   trigger:
-#   - platform: event
-#      event_type: timer.finished
-#      event_data:
-#       entity_id: timer.geiger
-#   action: 
-#     - service: switch.turn_off
-#       entity_id: switch.0x00158d000153dd8e_switch
-#     - delay: 00:00:10
-#     - service: switch.turn_on
-#       entity_id: switch.0x00158d000153dd8e_switch
-#     - service: timer.start
-#       entity_id: timer.geiger
+        {%- endif -%}

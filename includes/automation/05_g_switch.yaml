@@ -1,6 +1,6 @@
-- alias: 05_ilife_a4
-  id: Запуск робота пылесоса
-  initial_state: false
+- id: Запуск робота пылесоса
+  alias: 05_ilife_a4
+  initial_state: true
   trigger:
     platform: time
     at: '10:30:00'
@@ -10,19 +10,26 @@
       - mon
       - wed
       - fri
+  - condition: state
+    entity_id: switch.control_mode
+    state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.ilife_a4
     
-- alias: 05_usb_cool_auto
-  id: Охлаждающая подставка
-  initial_state: false
+- id: Охлаждающая подставка
+  alias: 05_usb_cool_auto
+  initial_state: true
   trigger:
     - platform: time_pattern
       minutes: '/5'
     - platform: state
       entity_id:
         - sensor.living_day_work
+  condition:
+   - condition: state
+     entity_id: switch.control_mode
+     state: 'on'
   action:
     service_template: >-
       {%- if states.sensor.living_day_work.state == 'Включен' -%}
@@ -32,3 +39,20 @@
       {%- endif -%}  
     entity_id: 
        - switch.xiaomi_wifi_socket_usb_usb
+       
+- id: Отключение режима тишины
+  alias: living_silent_off
+  initial_state: true
+  trigger:
+## Завершение таймера
+   - platform: event
+     event_type: timer.finished
+     event_data:
+       entity_id: timer.lr_silent
+  condition:
+   - condition: state
+     entity_id: switch.control_mode
+     state: 'on'
+  action:
+    - service: switch.turn_off
+      entity_id: switch.silent_mode

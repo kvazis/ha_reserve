@@ -21,7 +21,6 @@ homeassistant:
   
   whitelist_external_dirs :
    - /config
-
 # Стандартный набор для интерфейса
 # default_config:
 
@@ -35,7 +34,7 @@ frontend:
   themes: !include_dir_merge_named themes
 # Включение карты
 map:
-# # Включение поддержки приложения
+# Включение поддержки приложения
 mobile_app:
 # Отслеживание солнца
 sun:
@@ -45,16 +44,17 @@ system_health:
 updater:
 # Потоковое изображение с камер
 stream:
-# Включение журнала
-logbook:
 # Включение истории
 history:
-
-# panel_iframe:
-#   sls_gateway:
-#     title: 'SLS Gateway'
-#     icon: mdi:zigbee
-#     url: 'http://192.168.0.84'
+# Включение журнала
+logbook:
+# Логирование ошибок
+logger:
+  default: info
+  logs:
+     libav.rtsp: critical
+# Медиа контент
+media_source:
 
 lovelace:
   mode: yaml
@@ -83,13 +83,9 @@ lovelace:
      type: module
    - url: /hacsfiles/entity-attributes-card/entity-attributes-card.js
      type: module
-
+     
 #Платформы
-# tuya:
-#   username: !secret tuya_username
-#   password: !secret tuya_password
-#   country_code: 380
-  
+
 mqtt:
 #   broker: core-mosquitto
   broker: 192.168.0.74
@@ -123,6 +119,7 @@ telegram_bot:
     allowed_chat_ids:
       - !secret chat_id_alex
       - !secret chat_id_olha
+      
 # Роутер
 asuswrt:
   host: !secret asus_ip
@@ -140,6 +137,7 @@ device_tracker:
     new_device_defaults:
       track_new_devices: false
 
+zodiac:
 
 life360:
   driving_speed: 20

@@ -33,7 +33,7 @@ cr_light:
     
         - id: Коридор, включение освещения
           alias: 03_corr_light_on
-          initial_state: false
+          initial_state: true
           trigger:
         ## Выключатель на входе
           - platform: state
@@ -51,6 +51,9 @@ cr_light:
             - condition: state
               entity_id: light.yeelight_03_ceiling
               state: 'off'
+            - condition: state
+              entity_id: switch.control_mode
+              state: 'on'  
           action: 
             - service: light.turn_on
               entity_id:
@@ -61,7 +64,7 @@ cr_light:
                 
         - id: Коридор, освещение по датчику вибрации
           alias: 03_corr_light_on_vibro
-          initial_state: false
+          initial_state: true
           trigger:
         ## Квадратная датчик вибрации
             - platform: state
@@ -77,6 +80,9 @@ cr_light:
             - condition: state
               entity_id: binary_sensor.cr_night
               state: 'off'
+            - condition: state
+              entity_id: switch.control_mode
+              state: 'on' 
           action:
             - service: light.turn_on
               entity_id:
@@ -91,7 +97,7 @@ cr_light:
                 
         - id: Коридор, ночная подсветка
           alias: 03_corr_light_night
-          initial_state: false
+          initial_state: true
           trigger:
         ## Сенсор движения
             - platform: state
@@ -104,6 +110,9 @@ cr_light:
             - condition: state
               entity_id: binary_sensor.cr_night
               state: 'on'
+            - condition: state
+              entity_id: switch.control_mode
+              state: 'on' 
           action:
             - service: light.turn_on
               entity_id: light.yeelight_03_ceiling_ambilight
@@ -113,10 +122,11 @@ cr_light:
             - delay: 00:00:10
             - service: light.turn_off
               entity_id: light.yeelight_03_ceiling_ambilight
+
                 
         - id: Коридор, выключение освещения
           alias: 03_corr_light_off
-          initial_state: false
+          initial_state: true
           trigger:
         ## Таймер выключился
           - platform: event
@@ -139,6 +149,9 @@ cr_light:
             - condition: state
               entity_id: light.yeelight_03_ceiling
               state: 'on'
+            - condition: state
+              entity_id: switch.control_mode
+              state: 'on' 
           action: 
             - service: light.turn_off
               entity_id:
@@ -146,12 +159,16 @@ cr_light:
                 
         - id: Коридор и прихожая, управление освещением
           alias: 03_corr_entr
-          initial_state: false
+          initial_state: true
           trigger:
         ## Нажатие на две кнопки одновременно
           - platform: state
             entity_id: sensor.0x00158d00013fc3bc_click
             to: 'both'
+          condition:
+            - condition: state
+              entity_id: switch.control_mode
+              state: 'on' 
           action: 
           - service: script.turn_on
             data_template:

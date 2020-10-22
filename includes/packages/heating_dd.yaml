@@ -32,7 +32,7 @@ heating_dd:
 
       - id: Обгрев Детской Д
         alias: dd_heating
-        initial_state: false
+        initial_state: true
         trigger:
           - platform: homeassistant
             event: start
@@ -41,6 +41,13 @@ heating_dd:
           - platform: state
             entity_id:
               - binary_sensor.dd_heat
+        condition:
+          - condition: state
+            entity_id: binary_sensor.radiator
+            state: 'on'  
+          - condition: state
+            entity_id: switch.control_mode
+            state: 'on'  
         action:
           - service: script.turn_on
             data_template:

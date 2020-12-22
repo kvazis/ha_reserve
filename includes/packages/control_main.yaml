@@ -2,14 +2,14 @@ control_main:
 
     sensor:
     
-        - platform: rest
-          resource: http://192.168.0.70:8123/api/states/group.scenario
-          name: main_scenario_group
-          force_update: true
-          headers: 
-            Authorization: !secret main_secret_token
-            content-type: 'application/json'
-          value_template: '{{ value_json.state }}'
+        # - platform: rest
+        #   resource: http://192.168.0.70:8123/api/states/group.scenario
+        #   name: main_scenario_group
+        #   force_update: true
+        #   headers: 
+        #     Authorization: !secret main_secret_token
+        #     content-type: 'application/json'
+        #   value_template: '{{ value_json.state }}'
             
         - platform: rest
           resource: http://192.168.0.70:8123/api/states/sensor.online_custom
@@ -46,38 +46,38 @@ control_main:
                  topic: "notification/error"
                  payload_template: '012'
                 
-        - alias: 911_scenario_on
-          initial_state: true
-          trigger:
-           - platform: state
-             entity_id: sensor.main_scenario_group
-             to: 'unavailable'
-           - platform: state
-             entity_id: sensor.main_scenario_group
-             to: 'off'
-          condition:
-            - condition: state
-              entity_id: group.scenario
-              state: 'off'     
-          action:
-            - service: homeassistant.turn_on
-              entity_id:
-                 - group.scenario
+        # - alias: 911_scenario_on
+        #   initial_state: true
+        #   trigger:
+        #   - platform: state
+        #      entity_id: sensor.main_scenario_group
+        #      to: 'unavailable'
+        #   - platform: state
+        #      entity_id: sensor.main_scenario_group
+        #      to: 'off'
+        #   condition:
+        #     - condition: state
+        #       entity_id: group.scenario
+        #       state: 'off'     
+        #   action:
+        #     - service: homeassistant.turn_on
+        #       entity_id:
+        #          - group.scenario
         
                  
-        - alias: 911_scenario_off
-          initial_state: true
-          trigger:
-           platform: state
-           entity_id: sensor.main_scenario_group
-           to: 'on'
-          condition:
-            - condition: state
-              entity_id: group.scenario
-              state: 'on'     
-          action:
-            - delay: 00:02:00
-            - service: homeassistant.turn_off
-              entity_id:
-                 - group.scenario
+        # - alias: 911_scenario_off
+        #   initial_state: true
+        #   trigger:
+        #   platform: state
+        #   entity_id: sensor.main_scenario_group
+        #   to: 'on'
+        #   condition:
+        #     - condition: state
+        #       entity_id: group.scenario
+        #       state: 'on'     
+        #   action:
+        #     - delay: 00:02:00
+        #     - service: homeassistant.turn_off
+        #       entity_id:
+        #          - group.scenario
     

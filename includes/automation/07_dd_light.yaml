@@ -1,7 +1,6 @@
-
 - id: ДД, ручное управление люстрой
   alias: 07_dd_philips
-  initial_state: false
+  initial_state: true
   trigger:
 # Выключатель у входа
   - platform: state
@@ -14,7 +13,11 @@
 # Кубик
   - platform: state
     entity_id: sensor.0x00158d00011063da_action
-    to: 'flip90'  
+    to: 'flip90'
+  condition:
+  - condition: state
+    entity_id: switch.control_mode
+    state: 'on'
   action:    
     - service: script.turn_on
       data_template:
@@ -29,7 +32,7 @@
 
 - id: ДД, автоматическое включение люстры
   alias: 07_dd_philips_auto_on
-  initial_state: false
+  initial_state: true
   trigger:
   - platform: state
     entity_id: binary_sensor.0x00158d0001a66222_occupancy
@@ -40,11 +43,14 @@
    - condition: state
      entity_id: light.philips_07_ceiling
      state: 'off'
+   - condition: state
+     entity_id: switch.control_mode
+     state: 'on'
    - condition: or
      conditions:
-         - condition: numeric_state
-           entity_id: sensor.illumination_286c07f0ad27
-           below: 800
+        #  - condition: numeric_state
+        #   entity_id: sensor.illumination_286c07f0ad27
+        #   below: 800
          - condition: sun
            after: sunset
          - condition: sun
@@ -70,7 +76,7 @@
 
 - id: ДД, автоматическое выключение люстры
   alias: 07_dd_philips_auto_off
-  initial_state: false
+  initial_state: true
   trigger:
   - platform: state
     entity_id: binary_sensor.0x00158d0001a66222_occupancy
@@ -83,25 +89,32 @@
    - condition: numeric_state
      entity_id: sensor.philips_07_ceiling
      above: 1
+   - condition: state
+     entity_id: switch.control_mode
+     state: 'on'
   action:
    - service: light.turn_off
      entity_id: light.philips_07_ceiling
 
 - id: ДД, отключение люстры после сбоя
   alias: 07_dd_philips_auto_off_unavailable
-  initial_state: false
+  initial_state: true
   trigger:
   - platform: state
     entity_id: light.philips_07_ceiling
     from: 'unavailable'
     to: 'on'
+  condition:
+  - condition: state
+    entity_id: switch.control_mode
+    state: 'on'
   action:
    - service: light.turn_off
      entity_id: light.philips_07_ceiling
 
 - id: ДД, ручное управление бра
   alias: 07_dd_bra
-  initial_state: false
+  initial_state: true
   trigger:
   - platform: state
     entity_id: sensor.0x00158d000163e571_click
@@ -110,6 +123,10 @@
   - platform: state
     entity_id: sensor.0x00158d0003d50723_action
     to: 'right'
+  condition:
+  - condition: state
+    entity_id: switch.control_mode
+    state: 'on'
   action: 
   - service: script.turn_on
     data_template:
@@ -122,20 +139,24 @@
 
 - id: ДД, включение питания на настольную лампу
   alias: 07_table_autoswitch
-  initial_state: false
+  initial_state: true
   trigger:
   - platform: state
     entity_id: switch.0x00158d00030a6e78_switch
     to: 'off'
+  condition:
+  - condition: state
+    entity_id: switch.control_mode
+    state: 'on'
   action:
   - delay: 00:00:03
   - service: switch.turn_on
     entity_id:
-      - switch.0x00158d00030a6e78_switch        
+      - switch.0x00158d00030a6e78_switch    
         
 - id: ДД, выключение всего освещения
   alias: 07_dd_all_off
-  initial_state: false
+  initial_state: true
   trigger:
 # Выключатель на входе
   - platform: state
@@ -149,13 +170,17 @@
   - platform: state
     entity_id: sensor.0x00158d00011063da_action
     to: 'fall'
+  condition:
+  - condition: state
+    entity_id: switch.control_mode
+    state: 'on'
   action:
     - service: script.turn_on
       entity_id: script.07_dd_lightoff
 
 - id: ДД, ручное управление принтером
   alias: 07_hp_toggle
-  initial_state: false
+  initial_state: true
   trigger:
 # Кнопка на принтере
   - platform: state
@@ -164,19 +189,27 @@
 # Кубик 
   - platform: state
     entity_id: sensor.0x00158d00011063da_action
-    to: 'flip180'  
+    to: 'flip180' 
+  condition:
+  - condition: state
+    entity_id: switch.control_mode
+    state: 'on'
   action:
     service: switch.toggle
     entity_id: switch.plug1
         
 - id: ДД, запись последнего движения
   alias: 07_dd_motion_time
-  initial_state: false
+  initial_state: true
   trigger:
 ## Движение в детской Д
   - platform: state
     entity_id: binary_sensor.0x00158d0001a66222_occupancy
     to: 'on'
+  condition:
+  - condition: state
+    entity_id: switch.control_mode
+    state: 'on'
   action: 
   - service: mqtt.publish
     data_template:
@@ -186,12 +219,16 @@
       
 - id: ДД балкон, запись последнего движения
   alias: 07_dd_b_motion_time
-  initial_state: false
+  initial_state: true
   trigger:
 ## Движение в детской Д балкон
   - platform: state
     entity_id: binary_sensor.0xec1bbdfffe4521a3_occupancy
     to: 'on'
+  condition:
+  - condition: state
+    entity_id: switch.control_mode
+    state: 'on'
   action: 
   - service: mqtt.publish
     data_template:

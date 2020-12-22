@@ -22,7 +22,7 @@ air_slsco2:
     
         - id: Детская Д, уведомление о проветривании
           alias: dd_air_fresh
-          initial_state: false
+          initial_state: true
         # Проверка каждые 30 минут
           trigger:
             - platform: time_pattern
@@ -31,6 +31,9 @@ air_slsco2:
             - condition: state
               entity_id:  binary_sensor.dd_air
               state: 'on'
+            - condition: state
+              entity_id: switch.control_mode
+              state: 'on' 
           action:
            - service: mqtt.publish
              data_template:

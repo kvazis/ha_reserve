@@ -73,7 +73,7 @@ air_mijia:
     
         - id: Детская А, уведомление о проветривании
           alias: da_air_fresh
-          initial_state: false
+          initial_state: true
         # Проверка каждые 30 минут
           trigger:
             - platform: time_pattern
@@ -81,6 +81,9 @@ air_mijia:
           condition:
             - condition: state
               entity_id:  binary_sensor.da_air
+              state: 'on'
+            - condition: state
+              entity_id: switch.control_mode
               state: 'on'
           action:
            - service: mqtt.publish

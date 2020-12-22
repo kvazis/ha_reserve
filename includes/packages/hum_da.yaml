@@ -15,7 +15,8 @@ hum_da:
             friendly_name: "Режим увлажнения, Детская А -"
             value_template: >-
               {{ is_state('binary_sensor.0x00158d0001583c7b_contact', 'off')  
-                 and is_state('binary_sensor.da_hum_mode', 'on') 
+                 and is_state('binary_sensor.da_hum_mode', 'on')
+                 and is_state('binary_sensor.away', 'off')
                  and is_state('sensor.da_day_work', 'Включен') }}
             icon_template: >-
               {% if is_state("binary_sensor.da_hum", "on") %}
@@ -69,7 +70,7 @@ hum_da:
             
         - alias: 08_da_hum_auto
           id: 'Увлажнение в детской А'
-          initial_state: false
+          initial_state: true
           trigger:
             - platform: homeassistant
               event: start
@@ -78,6 +79,10 @@ hum_da:
                 - input_number.humidity_level_da
                 - sensor.08_mean_humidity
                 - binary_sensor.da_hum
+          condition:
+             - condition: state
+               entity_id: switch.control_mode
+               state: 'on'
           action:
             service_template: >-
               {% set hi = (states('input_number.humidity_level_da') | float) + 5 %}
@@ -96,7 +101,7 @@ hum_da:
         
         ## Предупреждение о недостатке воды    
         - alias: 08_da_hum_water_warning
-          initial_state: false
+          initial_state: true
           trigger:
         ## Падение мощности менее 10 Ватт
            - platform: numeric_state
@@ -105,6 +110,9 @@ hum_da:
              for:
                minutes: 2
           condition:
+             - condition: state
+               entity_id: switch.control_mode
+               state: 'on'
         ## Увлажнитель включен
              - condition: state
                entity_id: switch.0x00158d00010ec4b8_switch

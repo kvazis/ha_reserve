@@ -94,10 +94,10 @@ mqtt:
   username: mqtt
   password: mqtt
 
-weather:
-  - platform: openweathermap
-    api_key: !secret openweathermap_key
-#   mode: daily
+# weather:
+#   - platform: openweathermap
+#     api_key: !secret openweathermap_key
+# #   mode: daily
 
 # Text to speech
 tts:
@@ -138,6 +138,9 @@ device_tracker:
       track_new_devices: false
 
 zodiac:
+
+# xiaomi_gateway3:
+#   debug: true
 
 life360:
   driving_speed: 20

@@ -33,9 +33,9 @@ cards:
             icon: mdi:clock
           - type: divider
           - entity: switch.control_mode
-          - entity: group.scenario
-            name: Бытовые сценарии - 
-            icon: mdi:format-list-numbered
+        #   - entity: group.scenario
+        #     name: Бытовые сценарии - 
+        #     icon: mdi:format-list-numbered
           - type: divider
           - entity: sensor.current_ha
             name: Установлен Home Assistant -
@@ -54,9 +54,9 @@ cards:
           - entity: sensor.main_state
             name: Raspberry Pi 4 B 4GB в онлайне -
             icon: mdi:clock-outline
-          - entity: sensor.main_scenario_group
-            name: Бытовые сценарии
-            icon: mdi:format-list-numbered
+        #   - entity: sensor.main_scenario_group
+        #     name: Бытовые сценарии
+        #     icon: mdi:format-list-numbered
           - entity: sensor.main_live_ping
           - type: divider
           - entity: sensor.mqtt_state
